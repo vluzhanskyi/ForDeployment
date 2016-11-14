@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Module1
+namespace Module2
 {
-    public class SimpleSearch
+    public class SearchWithoutRegister
     {
         public string RunSearch(string searchKey, List<string> testFileLinesList)
         {
@@ -17,7 +17,7 @@ namespace Module1
             {
                 if (!string.IsNullOrEmpty(line))
                 {
-                    if (line.Contains(searchKey))
+                    if (line.IndexOf(searchKey, StringComparison.InvariantCultureIgnoreCase) >= 0)
                     {
                         resunlt = line;
                     }
@@ -26,5 +26,7 @@ namespace Module1
 
             return resunlt;
         }
+
+      
     }
 }
