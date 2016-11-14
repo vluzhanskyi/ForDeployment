@@ -11,7 +11,8 @@ namespace Deplyment_TestSolution
         static void Main(string[] args)
         {
             Controller c = new Controller("test.txt");
-            c.RunSearchInplugins("test");
+            c.RunSearchInplugins("Test");
+            Console.ReadLine();
         }
     }
 }

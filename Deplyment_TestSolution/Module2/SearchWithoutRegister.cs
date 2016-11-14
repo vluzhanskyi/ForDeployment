@@ -9,6 +9,9 @@ namespace Module2
 {
     public class SearchWithoutRegister
     {
+        public string PluginInfo = "============SimpleSearchWithoutRegister============ \n Descriptin: IndexOf searchKey" +
+                                   " with StringComparison.InvariantCultureIgnoreCase \n";
+
         public string RunSearch(string searchKey, List<string> testFileLinesList)
         {
             string resunlt = null;
@@ -17,7 +20,8 @@ namespace Module2
             {
                 if (!string.IsNullOrEmpty(line))
                 {
-                    if (line.IndexOf(searchKey, StringComparison.InvariantCultureIgnoreCase) >= 0)
+                    var tempLine = line.Replace(" ", "");
+                    if (tempLine.IndexOf(searchKey, StringComparison.InvariantCultureIgnoreCase) >= 0)
                     {
                         resunlt = line;
                     }

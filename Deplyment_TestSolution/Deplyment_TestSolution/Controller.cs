@@ -52,7 +52,20 @@ namespace Deplyment_TestSolution
            {
                dynamic c = Activator.CreateInstance(type);
                var result = c.RunSearch(searchKey, TestFileLinesList);
+               if (result != null)
+               {
+                   string methodDescription = c.PluginInfo;
+                   OnriseFoundEventArgs(methodDescription, type.Assembly.GetName().Name, type.Assembly.GetName().Version.ToString(), result);
+               }
            }
+       }
+
+       public void OnriseFoundEventArgs(string methodDescription, string assemblyname, string pluginVersion, string result)
+       {
+           Console.WriteLine(methodDescription);
+           Console.WriteLine(assemblyname);
+           Console.WriteLine(pluginVersion);
+           Console.WriteLine("FoundLine: {0}", result);
        }
     }
 }

@@ -9,6 +9,8 @@ namespace Module1
 {
     public class SimpleSearch
     {
+        public string PluginInfo = "============SimpleSearch============ \n Descriptin: Contains method \n";
+
         public string RunSearch(string searchKey, List<string> testFileLinesList)
         {
             string resunlt = null;
