@@ -9,25 +9,37 @@ namespace Deplyment_TestSolution
    public class Controller
     {
        public List<string> TestFileLinesList = new List<string>();
-       readonly string _pluginsPath = Directory.GetCurrentDirectory() + @"\Plugins";
-
-       public Controller(string filePath)
+       private readonly string _pluginsPath = Directory.GetCurrentDirectory() + @"\Plugins";
+       public View View;
+       public Controller(bool isTest = false)
        {
-           GetText(filePath);
+           View = new View(isTest);
+            GetText(View.FilePath);      
        }
 
        private async void GetText(string filePath)
        {
            try
            {
-               using (var reader = new StreamReader(filePath))
+               if (!string.IsNullOrEmpty(filePath))
                {
-                   string line;
-                   while ((line = await reader.ReadLineAsync()) != null)
+                   using (var reader = new StreamReader(filePath))
                    {
-                       TestFileLinesList.Add(line);
+                       string line;
+                       while ((line = await reader.ReadLineAsync()) != null)
+                       {
+                           TestFileLinesList.Add(line);
+                       }
                    }
                }
+               else
+               {
+                   View.ShowError("FilePath is empty");
+               }
+           }
+           catch (FileNotFoundException)
+           {
+               View.ShowError(string.Format("Could not found '{0}' file", View.FilePath));
            }
            catch (Exception e)
            {
@@ -37,9 +49,26 @@ namespace Deplyment_TestSolution
 
        private List<Type> Loadplugins()
        {
-           string[] pluginFiles = Directory.GetFiles(_pluginsPath, "*.dll");
-           var pluginsAssemblies = pluginFiles.Select(Assembly.LoadFile).ToList();
+           var pluginsAssemblies = new List<Assembly>();
+           try
+           {
+               string[] plagins = Directory.GetFiles(_pluginsPath, "*.dll");
+               pluginsAssemblies = plagins.Select(Assembly.LoadFile).ToList();
+           }
+           catch (DirectoryNotFoundException)
+           {
+               View.ShowError("Could not fould Plugins folder");
+           }
+           catch (FileNotFoundException)
+           {
+               View.ShowError("There no *.dll files in the Plugins folder");
+           }
+           catch (Exception e)
+           {
+               View.ShowError(e.Message);
+           }
            var types = new List<Type>();
+
            foreach (var assembly in pluginsAssemblies)
            {
               types.AddRange(assembly.GetExportedTypes());               
@@ -47,24 +76,25 @@ namespace Deplyment_TestSolution
            return types;
        }
 
-       public bool RunSearchInplugins(string searchKey)
+       public bool RunSearchInplugins()
        {
            List<Type> types = Loadplugins();
            bool result = false;
+
            foreach (var type in types.Where(e => e.Name.Contains("Search")))
            {
                dynamic c = Activator.CreateInstance(type);
-               IEnumerable<string> pluginSearchResult = c.RunSearch(searchKey, TestFileLinesList);
+               IEnumerable<string> pluginSearchResult = c.RunSearch(View.Key, TestFileLinesList);
                if (pluginSearchResult.LongCount() > 0)
                {
-                   View.ShowResults(c.PluginInfo, type.Assembly.GetName().Name, type.Assembly.GetName().Version.ToString(), pluginSearchResult);
+                   Deplyment_TestSolution.View.ShowResults(c.PluginInfo, type.Assembly.GetName().Name,
+                                                            type.Assembly.GetName().Version.ToString(), 
+                                                            pluginSearchResult);
                    result = true;
                }
                
            }
            return result;
        }
-
-       
     }
 }

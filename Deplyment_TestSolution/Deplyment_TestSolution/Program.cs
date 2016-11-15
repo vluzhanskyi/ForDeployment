@@ -1,16 +1,23 @@
 ﻿using System;
+using System.Threading;
 
 namespace Deplyment_TestSolution
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
-            View view = new View();
+            while (true)
+            {
+                var c = new Controller();
+                c.RunSearchInplugins();
 
-            Controller c = new Controller(view.FilePath);
-            c.RunSearchInplugins(view.Key);
-            Console.ReadLine();
+                if (View.AskForContinue() == true)
+                {
+                    continue;
+                }
+                break;
+            }
         }
     }
 }

@@ -1,6 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using Deplyment_TestSolution;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -9,26 +7,27 @@ namespace Deplyment_TestSolutionTests
     [TestClass()]
     public class ControllerTests
     {
-        readonly Controller _cNullTest = new Controller(null);
-
+        private readonly Controller _testController = new Controller(true);
         public ControllerTests()
         {
-            _cNullTest.TestFileLinesList.Add(null);
-            _cNullTest.TestFileLinesList.Add("");
-            _cNullTest.TestFileLinesList.Add("                       ");
-            _cNullTest.TestFileLinesList.Add("TEST");
-            _cNullTest.TestFileLinesList.Add("Test");
-            _cNullTest.TestFileLinesList.Add("  t     E   sT     TE   S    t");
+            _testController.TestFileLinesList.Add(null);
+            _testController.TestFileLinesList.Add("");
+            _testController.TestFileLinesList.Add("                       ");
+            _testController.TestFileLinesList.Add("TEST");
+            _testController.TestFileLinesList.Add("Test");
+            _testController.TestFileLinesList.Add("  t     E   sT     TE   S    t");
         }
         [TestMethod()]
         public void RunSearchInpluginsWhiteSpacesTest()
         {
-            
-            if (!_cNullTest.RunSearchInplugins(""))
+            _testController.View.Key = "";
+
+            if (!_testController.RunSearchInplugins())
             {
                 Assert.Fail();
             }
-            if (!_cNullTest.RunSearchInplugins(" "))
+            _testController.View.Key = " ";
+            if (!_testController.RunSearchInplugins())
             {
                 Assert.Fail();
             }
@@ -38,11 +37,13 @@ namespace Deplyment_TestSolutionTests
         [TestMethod()]
         public void RunSearchInpluginsInvariantCultureTest()
         {
-            if (!_cNullTest.RunSearchInplugins("test"))
+            _testController.View.Key = "test";
+            if (!_testController.RunSearchInplugins())
             {
                 Assert.Fail();
             }
-            if (!_cNullTest.RunSearchInplugins("Test"))
+            _testController.View.Key = "Test";
+            if (!_testController.RunSearchInplugins())
             {
                 Assert.Fail();
             }
@@ -52,8 +53,9 @@ namespace Deplyment_TestSolutionTests
         [TestMethod]
         public void CheckModule1()
         {
+            _testController.View.Key = "test";
             RenameModule("Module2.dll", "Module2.test");
-            if (_cNullTest.RunSearchInplugins("test"))
+            if (_testController.RunSearchInplugins())
             {
                 Assert.Fail();
             }
@@ -63,8 +65,9 @@ namespace Deplyment_TestSolutionTests
         [TestMethod]
         public void CheckModule2()
         {
+            _testController.View.Key = "test";
             RenameModule("Module1.dll", "Module1.test");
-            if (!_cNullTest.RunSearchInplugins("test"))
+            if (!_testController.RunSearchInplugins())
             {
                 Assert.Fail();
             }
