@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Deplyment_TestSolution
 {
@@ -10,8 +6,10 @@ namespace Deplyment_TestSolution
     {
         static void Main(string[] args)
         {
-            Controller c = new Controller("test.txt");
-            c.RunSearchInplugins("Test");
+            View view = new View();
+
+            Controller c = new Controller(view.FilePath);
+            c.RunSearchInplugins(view.Key);
             Console.ReadLine();
         }
     }

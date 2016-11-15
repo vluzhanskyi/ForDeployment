@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Linq;
-using System.Net.Mime;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Deplyment_TestSolution
 {
@@ -21,13 +17,20 @@ namespace Deplyment_TestSolution
 
        private async void GetText(string filePath)
        {
-           using (var reader = new StreamReader(filePath))
+           try
            {
-               string line;
-               while ((line = await reader.ReadLineAsync()) != null)
+               using (var reader = new StreamReader(filePath))
                {
-                   TestFileLinesList.Add(line);
+                   string line;
+                   while ((line = await reader.ReadLineAsync()) != null)
+                   {
+                       TestFileLinesList.Add(line);
+                   }
                }
+           }
+           catch (Exception e)
+           {
+               View.ShowError(e.ToString());
            }
        }
 
@@ -47,25 +50,15 @@ namespace Deplyment_TestSolution
        public void RunSearchInplugins(string searchKey)
        {
            List<Type> types = Loadplugins();
-
            foreach (var type in types.Where(e => e.Name.Contains("Search")))
            {
                dynamic c = Activator.CreateInstance(type);
-               var result = c.RunSearch(searchKey, TestFileLinesList);
-               if (result != null)
-               {
-                   string methodDescription = c.PluginInfo;
-                   OnriseFoundEventArgs(methodDescription, type.Assembly.GetName().Name, type.Assembly.GetName().Version.ToString(), result);
-               }
+               IEnumerable<string> pluginSearchResult = c.RunSearch(searchKey, TestFileLinesList);
+               if (pluginSearchResult.LongCount() > 0) { }
+               View.ShowResults(c.PluginInfo, type.Assembly.GetName().Name, type.Assembly.GetName().Version.ToString(), pluginSearchResult);
            }
        }
 
-       public void OnriseFoundEventArgs(string methodDescription, string assemblyname, string pluginVersion, string result)
-       {
-           Console.WriteLine(methodDescription);
-           Console.WriteLine(assemblyname);
-           Console.WriteLine(pluginVersion);
-           Console.WriteLine("FoundLine: {0}", result);
-       }
+       
     }
 }
