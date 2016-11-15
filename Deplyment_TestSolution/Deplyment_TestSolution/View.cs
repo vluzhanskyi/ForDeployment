@@ -21,7 +21,7 @@ namespace Deplyment_TestSolution
             Console.WriteLine("Search Key:{0}\n", Key);
         }
 
-        public static void ShowResults(string methodDescription, string assemblyname, string pluginVersion, IEnumerable<String> result)
+        public static void ShowResults(string methodDescription, string assemblyname, string pluginVersion, IEnumerable<string> result)
         {
             Console.WriteLine(methodDescription);
             Console.WriteLine(assemblyname);
