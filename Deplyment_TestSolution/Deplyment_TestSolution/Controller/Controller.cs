@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Linq;
+using Deplyment_TestSolution.Views;
 
 namespace Deplyment_TestSolution
 {
@@ -10,11 +11,11 @@ namespace Deplyment_TestSolution
     {
        public List<string> TestFileLinesList = new List<string>();
        private readonly string _pluginsPath = Directory.GetCurrentDirectory() + @"\Plugins";
-       public View View;
-       public Controller(bool useUI = true)
+       public View MyView;
+       public Controller(bool useUi = true)
        {
-           View = new View(useUI);
-            GetText(View.FilePath);      
+           MyView = new View(useUi);
+            GetText(MyView.FilePath);      
        }
 
        private async void GetText(string filePath)
@@ -34,16 +35,16 @@ namespace Deplyment_TestSolution
                }
                else
                {
-                   View.ShowError("FilePath is empty");
+                   MyView.ShowError("FilePath is empty");
                }
            }
            catch (FileNotFoundException)
            {
-               View.ShowError(string.Format("Could not found '{0}' file", View.FilePath));
+               MyView.ShowError(string.Format("Could not found '{0}' file", MyView.FilePath));
            }
            catch (Exception e)
            {
-               View.ShowError(e.ToString());
+               MyView.ShowError(e.ToString());
            }
        }
 
@@ -57,15 +58,15 @@ namespace Deplyment_TestSolution
            }
            catch (DirectoryNotFoundException)
            {
-               View.ShowError("Could not fould Plugins folder");
+               MyView.ShowError("Could not fould Plugins folder");
            }
            catch (FileNotFoundException)
            {
-               View.ShowError("There no *.dll files in the Plugins folder");
+               MyView.ShowError("There no *.dll files in the Plugins folder");
            }
            catch (Exception e)
            {
-               View.ShowError(e.Message);
+               MyView.ShowError(e.Message);
            }
            var types = new List<Type>();
 
@@ -84,10 +85,10 @@ namespace Deplyment_TestSolution
            foreach (var type in types.Where(e => e.Name.Contains("Search")))
            {
                dynamic c = Activator.CreateInstance(type);
-               IEnumerable<string> pluginSearchResult = c.RunSearch(View.Key, TestFileLinesList);
+               IEnumerable<string> pluginSearchResult = c.RunSearch(MyView.Key, TestFileLinesList);
                if (pluginSearchResult.LongCount() > 0)
                {
-                   Deplyment_TestSolution.View.ShowResults(c.PluginInfo, type.Assembly.GetName().Name,
+                   MyView.ShowResults(c.PluginInfo, type.Assembly.GetName().Name,
                                                             type.Assembly.GetName().Version.ToString(), 
                                                             pluginSearchResult);
                    result = true;

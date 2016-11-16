@@ -20,13 +20,13 @@ namespace Deplyment_TestSolutionTests
         [TestMethod()]
         public void RunSearchInpluginsWhiteSpacesTest()
         {
-            _testController.View.Key = "";
+            _testController.MyView.Key = "";
 
             if (!_testController.RunSearchInplugins())
             {
                 Assert.Fail();
             }
-            _testController.View.Key = " ";
+            _testController.MyView.Key = " ";
             if (!_testController.RunSearchInplugins())
             {
                 Assert.Fail();
@@ -37,12 +37,12 @@ namespace Deplyment_TestSolutionTests
         [TestMethod()]
         public void RunSearchInpluginsInvariantCultureTest()
         {
-            _testController.View.Key = "test";
+            _testController.MyView.Key = "test";
             if (!_testController.RunSearchInplugins())
             {
                 Assert.Fail();
             }
-            _testController.View.Key = "Test";
+            _testController.MyView.Key = "Test";
             if (!_testController.RunSearchInplugins())
             {
                 Assert.Fail();
@@ -53,7 +53,7 @@ namespace Deplyment_TestSolutionTests
         [TestMethod]
         public void CheckModule1()
         {
-            _testController.View.Key = "test";
+            _testController.MyView.Key = "test";
             RenameModule("Module2.dll", "Module2.test");
             if (_testController.RunSearchInplugins())
             {
@@ -65,7 +65,7 @@ namespace Deplyment_TestSolutionTests
         [TestMethod]
         public void CheckModule2()
         {
-            _testController.View.Key = "test";
+            _testController.MyView.Key = "test";
             RenameModule("Module1.dll", "Module1.test");
             if (!_testController.RunSearchInplugins())
             {

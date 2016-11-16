@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Deplyment_TestSolution
+namespace Deplyment_TestSolution.Views
 {
-    public class View
+    public class View : IView
     {
-        public string FilePath;
-        public string Key;
+        public string FilePath { get; set; }
+        public string Key { get; set; }
 
-        public View(bool useUI = true)
+        public View(bool useUi = true)
         {
-            if (useUI)
+            if (useUi)
             {
                 Console.Clear();
                 Console.WriteLine("{0," + Console.WindowWidth / 2 + "}", "Welcome to data searcher\n\n");
@@ -25,7 +25,7 @@ namespace Deplyment_TestSolution
             }
         }
 
-        public static void ShowResults(string methodDescription, string assemblyname, string pluginVersion, IEnumerable<string> result)
+        public void ShowResults(string methodDescription, string assemblyname, string pluginVersion, IEnumerable<string> result)
         {
             Console.WriteLine(methodDescription);
             Console.WriteLine(assemblyname);
@@ -45,7 +45,7 @@ namespace Deplyment_TestSolution
             Console.WriteLine();
         }
 
-        public static void ShowError(string error)
+        public void ShowError(string error)
         {
             Console.WriteLine(error);
         }
