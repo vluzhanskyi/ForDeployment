@@ -7,7 +7,7 @@ namespace Deplyment_TestSolutionTests
     [TestClass()]
     public class ControllerTests
     {
-        private readonly Controller _testController = new Controller(true);
+        private readonly Controller _testController = new Controller(false);
         public ControllerTests()
         {
             _testController.TestFileLinesList.Add(null);

@@ -9,9 +9,9 @@ namespace Deplyment_TestSolution
         public string FilePath;
         public string Key;
 
-        public View(bool isTest = false)
+        public View(bool useUI = true)
         {
-            if (!isTest)
+            if (useUI)
             {
                 Console.Clear();
                 Console.WriteLine("{0," + Console.WindowWidth / 2 + "}", "Welcome to data searcher\n\n");

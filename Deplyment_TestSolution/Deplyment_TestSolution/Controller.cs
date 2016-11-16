@@ -11,9 +11,9 @@ namespace Deplyment_TestSolution
        public List<string> TestFileLinesList = new List<string>();
        private readonly string _pluginsPath = Directory.GetCurrentDirectory() + @"\Plugins";
        public View View;
-       public Controller(bool isTest = false)
+       public Controller(bool useUI = true)
        {
-           View = new View(isTest);
+           View = new View(useUI);
             GetText(View.FilePath);      
        }
 
