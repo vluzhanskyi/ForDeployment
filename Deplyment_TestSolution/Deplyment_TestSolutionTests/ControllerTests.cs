@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using Deplyment_TestSolution;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
 
 namespace Deplyment_TestSolutionTests
 {
@@ -8,14 +9,20 @@ namespace Deplyment_TestSolutionTests
     public class ControllerTests
     {
         private readonly Controller _testController = new Controller(false);
+        private List<string> _content;
+        private string _testFilePath = string.Format("{0}\\test.txt", Directory.GetCurrentDirectory());
         public ControllerTests()
         {
-            _testController.TestFileLinesList.Add(null);
-            _testController.TestFileLinesList.Add("");
-            _testController.TestFileLinesList.Add("                       ");
-            _testController.TestFileLinesList.Add("TEST");
-            _testController.TestFileLinesList.Add("Test");
-            _testController.TestFileLinesList.Add("  t     E   sT     TE   S    t");
+            _content = new List<string> {
+                null,
+                "",
+                "                       ",
+                "TEST",
+                "Test",
+                "  t     E   sT     TE   S    t"
+            };
+            CreateFile(_testFilePath, _content);
+            _testController.MyView.FilePath = _testFilePath;
         }
         [TestMethod()]
         public void RunSearchInpluginsWhiteSpacesTest()
@@ -31,7 +38,7 @@ namespace Deplyment_TestSolutionTests
             {
                 Assert.Fail();
             }
-           
+
         }
 
         [TestMethod()]
@@ -57,6 +64,7 @@ namespace Deplyment_TestSolutionTests
             RenameModule("Module2.dll", "Module2.test");
             if (_testController.RunSearchInplugins())
             {
+                RenameModule("Module2.test", "Module2.dll");
                 Assert.Fail();
             }
             RenameModule("Module2.test", "Module2.dll");
@@ -69,6 +77,7 @@ namespace Deplyment_TestSolutionTests
             RenameModule("Module1.dll", "Module1.test");
             if (!_testController.RunSearchInplugins())
             {
+                RenameModule("Module1.test", "Module1.dll");
                 Assert.Fail();
             }
             RenameModule("Module1.test", "Module1.dll");
@@ -86,6 +95,18 @@ namespace Deplyment_TestSolutionTests
                     var newFileName = file.Replace(moduleName, expectedName);
                     File.Move(file, newFileName);
                 }
+            }
+        }
+
+        private void CreateFile(string path, List<string> content)
+        {
+            using(StreamWriter writer = File.CreateText(path))
+            {
+                foreach(var line in content)
+                {
+                    writer.WriteLine(line);
+                }
+                writer.Close();
             }
         }
     }

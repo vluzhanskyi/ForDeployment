@@ -42,6 +42,12 @@
     <Compile Include="SearchWithoutRegister.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Deplyment_TestSolution\Deplyment_TestSolution.csproj">
+      <Project>{82465664-ED5B-4351-9F3F-EF1E31D38355}</Project>
+      <Name>Deplyment_TestSolution</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
