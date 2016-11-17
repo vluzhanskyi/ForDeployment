@@ -50,7 +50,7 @@ namespace Deplyment_TestSolution
            List<Type> types = Loadplugins();
            bool result = false;
 
-           foreach (var type in types.Where(e => e.Name.Contains("Search")))
+           foreach (var type in types.Where(e => e.Name.Contains("RunSearch")))
            {
                dynamic c = Activator.CreateInstance(type);
                 if (!string.IsNullOrEmpty(MyView.FilePath))
