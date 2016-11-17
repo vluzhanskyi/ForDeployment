@@ -1,7 +1,7 @@
 ﻿using System.IO;
-using Deplyment_TestSolution;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
+using Deplyment_TestSolution.Controller;
 
 namespace Deplyment_TestSolutionTests
 {
@@ -9,11 +9,10 @@ namespace Deplyment_TestSolutionTests
     public class ControllerTests
     {
         private readonly Controller _testController = new Controller(false);
-        private List<string> _content;
-        private string _testFilePath = string.Format("{0}\\test.txt", Directory.GetCurrentDirectory());
+        private readonly string _testFilePath = string.Format("{0}\\test.txt", Directory.GetCurrentDirectory());
         public ControllerTests()
         {
-            _content = new List<string> {
+            var content = new List<string> {
                 null,
                 "",
                 "                       ",
@@ -21,7 +20,7 @@ namespace Deplyment_TestSolutionTests
                 "Test",
                 "  t     E   sT     TE   S    t"
             };
-            CreateFile(_testFilePath, _content);
+            CreateFile(_testFilePath, content);
             _testController.MyView.FilePath = _testFilePath;
         }
         [TestMethod()]
