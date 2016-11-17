@@ -1,13 +1,20 @@
-﻿using System;
+﻿using Deplyment_TestSolution;
+using System;
 using System.Collections.Generic;
 using System.IO;
 
 namespace Module2
 {
-    public class SearchWithoutRegister
+    public class SearchWithoutRegister : IPlugin
     {
-        public string PluginInfo = "============SimpleSearchWithoutRegister============ \n Descriptin: IndexOf searchKey" +
+        string IPlugin.PluginInfo
+        {
+            get
+            {
+                return "============SimpleSearchWithoutRegister============ \n Descriptin: IndexOf searchKey" +
                                    " with StringComparison.InvariantCultureIgnoreCase \n";
+            }
+        }
 
         private IEnumerable<string> GetTextLines(string filePath)
         {

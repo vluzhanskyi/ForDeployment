@@ -1,13 +1,20 @@
-﻿using System;
+﻿using Deplyment_TestSolution;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 
 namespace Module1
 {
-    public class SimpleSearch
+    public class SimpleSearch : IPlugin
     {
-        public string PluginInfo = "===============SimpleSearch=============== \n Descriptin: Contains method \n";
+        string IPlugin.PluginInfo
+        {
+            get
+            {
+                return "===============SimpleSearch=============== \n Descriptin: Contains method \n";
+            }
+        }
 
         private IEnumerable<string> GetTextLines(string filePath)
         {

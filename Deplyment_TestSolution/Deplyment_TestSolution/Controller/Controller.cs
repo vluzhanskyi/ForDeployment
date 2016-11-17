@@ -55,14 +55,21 @@ namespace Deplyment_TestSolution
                dynamic c = Activator.CreateInstance(type);
                 if (!string.IsNullOrEmpty(MyView.FilePath))
                 {
-                    IEnumerable<string> pluginSearchResult = c.RunSearch(MyView.FilePath, MyView.Key);
-                    if (pluginSearchResult.LongCount() > 0)
+                    try
                     {
-                        MyView.ShowResults(c.PluginInfo, type.Assembly.GetName().Name,
-                                                                 type.Assembly.GetName().Version.ToString(),
-                                                                 pluginSearchResult);
-                        result = true;
+                        IEnumerable<string> pluginSearchResult = c.RunSearch(MyView.FilePath, MyView.Key);
+                        if (pluginSearchResult.LongCount() > 0)
+                        {
+                            MyView.ShowResults(c.PluginInfo, type.Assembly.GetName().Name,
+                                                                     type.Assembly.GetName().Version.ToString(),
+                                                                     pluginSearchResult);
+                            result = true;
+                        }
+                    } catch(Exception e)
+                    {
+                        MyView.ShowError("Fail to load plugin: \n" + e.Message);
                     }
+                    
                 } else
                 {
                     MyView.ShowError("Invalid data. Please try again");
