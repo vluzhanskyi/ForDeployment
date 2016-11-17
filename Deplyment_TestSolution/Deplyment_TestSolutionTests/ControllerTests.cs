@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
-using Deplyment_TestSolution;
+using Deplyment_TestSolution.Controller;
 
 namespace Deplyment_TestSolutionTests
 {
