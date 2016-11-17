@@ -1,6 +1,4 @@
-﻿using System;
-using System.Threading;
-using Deplyment_TestSolution.Views;
+﻿using Deplyment_TestSolution.Views;
 
 namespace Deplyment_TestSolution
 {
@@ -10,7 +8,7 @@ namespace Deplyment_TestSolution
         {
             while (true)
             {
-                var c = new Controller();
+                var c = new Controller.Controller();
                 c.RunSearchInplugins();
 
                 if (View.AskForContinue() == true)
